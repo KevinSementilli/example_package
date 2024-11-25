@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <gazebo>
+        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="base">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="rot_base">
+        <material>Gazebo/Blue</material>
+        <dynamics damping="0.1" friction="0.2"/>
+    </gazebo>    
+    
+    <transmission name="rot_base_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rot_base">
+            <hardwareInterface>position</hardwareInterface>
+        </joint>
+    </transmission>
+
+</robot>

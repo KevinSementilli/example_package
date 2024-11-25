@@ -17,9 +17,10 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(gazebo_ros REQUIRED)
+find_package(xacro REQUIRED)
+find_package(ros2_control REQUIRED)
+find_package(controller_manager REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -33,9 +34,12 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description include launch meshes src worlds
+  DIRECTORY config description launch meshes worlds
   DESTINATION share/${PROJECT_NAME}
 )
+
+# Export dependencies
+ament_export_dependencies(gazebo_ros ros2_control xacro)
 
 ament_package()
 

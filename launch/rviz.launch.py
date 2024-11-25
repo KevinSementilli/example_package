@@ -12,7 +12,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    package_name = 'robotic_arm'
+    package_name = 'example_package'
 
     # Declare use_sim_time argument
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -34,12 +34,15 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    # RViz2 Node
+    rviz_config_file = os.path.join(
+        get_package_share_directory(package_name), 'config', 'robot.rviz')
+
     node_rviz = Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
         output='screen',
+        arguments=['-d', rviz_config_file],
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
@@ -50,7 +53,7 @@ def generate_launch_description():
             default_value='false',
             description='Use sim time if true'
         ),
-        
+
         rsp,
         node_joint_state_publisher_gui,
         node_rviz
