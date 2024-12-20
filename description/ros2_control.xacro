@@ -1,16 +1,32 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <ros2_control name="gazebo_ros_controller">
+    <ros2_control name="GazeboSystem" type="system">
         <hardware>
-            <plugin>gazebo_ros2_control/GazeboSystemInterface</plugin>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
         </hardware>
-
         <joint name="rot_base">
             <command_interface name="position"/>
+                <param name="min">-3.14</param>
+                <param name="max">3.14</param>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
         </joint>
     </ros2_control>
+
+    <gazebo>
+        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            <parameters>$(find example_package)/config/controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="base">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="rot_base">
+        <material>Gazebo/Blue</material>
+        <dynamics damping="0.1" friction="0.2"/>
+    </gazebo> 
 
 </robot>

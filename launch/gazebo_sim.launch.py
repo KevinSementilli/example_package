@@ -32,27 +32,27 @@ def generate_launch_description():
         launch_arguments={'use_sim_time': use_sim_time}.items()
     )
 
-    # Controller manager node
-    ros2_controller_node = Node(
-        package='controller_manager',
-        executable='ros2_control_node',
-        output='screen',
-        parameters=[{'use_sim_time': use_sim_time}],
-        remappings=[('/robot_description', '~/robot_description')]
-    )
+    # # Controller manager node
+    # ros2_controller_node = Node(
+    #     package='controller_manager',
+    #     executable='ros2_control_node',
+    #     output='screen',
+    #     parameters=[{'use_sim_time': use_sim_time}],
+    #     remappings=[('/robot_description', '~/robot_description')]
+    # )
 
-    # Spawner nodes for controllers
-    joint_state_broadcaster_node = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster']
-    )
+    # # Spawner nodes for controllers
+    # joint_state_broadcaster_node = Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     arguments=['joint_state_broadcaster']
+    # )
 
-    position_controller_node = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['position_controller']
-    )
+    # position_controller_node = Node(
+    #     package='controller_manager',
+    #     executable='spawner',
+    #     arguments=['position_controller']
+    # )
 
     # Include Gazebo launch file
     gazebo = IncludeLaunchDescription(
@@ -79,9 +79,9 @@ def generate_launch_description():
         ),
         
         rsp,
-        ros2_controller_node,
-        joint_state_broadcaster_node,
-        position_controller_node,
+        # ros2_controller_node,
+        # joint_state_broadcaster_node,
+        # position_controller_node,
         gazebo,
         spawn_entity
     ])

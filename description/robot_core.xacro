@@ -51,7 +51,7 @@
 
     <!-- ___________________________________ Rotating Base _______________________________ -->
     
-    <joint name="rot_base" type="continuous">
+    <joint name="rot_base_joint" type="continuous">
     <parent link="base"/>
     <child link="rot_base"/>
     <axis xyz="0 0 1"/>
@@ -67,9 +67,9 @@
             <material name="blue"/>
         </visual>
         <collision>
-            <origin xyz="0 0 0"/>
+            <origin xyz="-0.1355 0 0.2"/>
             <geometry>
-                <mesh filename="package://example_package/meshes/rot_base.stl" scale="0.01 0.01 0.01" />
+                <mesh filename="package://example_package/meshes/rot_base.stl" scale="0.001 0.001 0.001" />
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="2.5" length="0.05" radius="0.1355">
