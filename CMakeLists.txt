@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(example_package)
 
-# Default to C99
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 99)
-endif()
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -34,7 +29,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch meshes worlds
+  DIRECTORY config description launch meshes
   DESTINATION share/${PROJECT_NAME}
 )
 

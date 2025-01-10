@@ -12,10 +12,6 @@ def generate_launch_description():
 
     package_name = 'example_package'
 
-    # Declare arguments
-    use_sim_time = LaunchConfiguration('use_sim_time')
-
-
     # path to robot_state_publisher launch file
     rsp_path = os.path.join(
         get_package_share_directory(package_name), 'launch', 'rsp.launch.py'
@@ -26,33 +22,12 @@ def generate_launch_description():
         get_package_share_directory(package_name), 'config', 'controllers.yaml'
     )
 
-    # Include robot_state_publisher launch file
+    # Launch robot_state_publisher with sim_time set to true
     rsp = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(rsp_path),
-        launch_arguments={'use_sim_time': use_sim_time}.items()
+        PythonLaunchDescriptionSource(
+            [os.path.join(get_package_share_directory(package_name), 'launch', 'rsp.launch.py')]), 
+            launch_arguments={'use_sim_time': 'true'}.items()
     )
-
-    # # Controller manager node
-    # ros2_controller_node = Node(
-    #     package='controller_manager',
-    #     executable='ros2_control_node',
-    #     output='screen',
-    #     parameters=[{'use_sim_time': use_sim_time}],
-    #     remappings=[('/robot_description', '~/robot_description')]
-    # )
-
-    # # Spawner nodes for controllers
-    # joint_state_broadcaster_node = Node(
-    #     package='controller_manager',
-    #     executable='spawner',
-    #     arguments=['joint_state_broadcaster']
-    # )
-
-    # position_controller_node = Node(
-    #     package='controller_manager',
-    #     executable='spawner',
-    #     arguments=['position_controller']
-    # )
 
     # Include Gazebo launch file
     gazebo = IncludeLaunchDescription(
@@ -66,22 +41,29 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=['-topic', 'robot_description', '-entity', 'my_bot'],
-        parameters=[{'use_sim_time': use_sim_time}],
         output='screen'
     )
 
+    # Spawner nodes for controllers
+    joint_state_broadcaster_node = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
+        output='screen',
+    )
+
+    position_controller_node = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['position_controller'],
+        output='screen',
+    )
+
     # Launch description
-    return LaunchDescription([
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='false',
-            description='Use simulation time if true'
-        ),
-        
+    return LaunchDescription([        
         rsp,
-        # ros2_controller_node,
-        # joint_state_broadcaster_node,
-        # position_controller_node,
         gazebo,
-        spawn_entity
+        spawn_entity,
+        joint_state_broadcaster_node,
+        position_controller_node,
     ])
